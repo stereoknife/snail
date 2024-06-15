@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "guitest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-guitest-Debug-41456defaf0a8b0a3714.json",
+					"jsonFile" : "target-guitest-Debug-6a84904a9d56e75cd7c2.json",
 					"name" : "guitest",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/kam/stuff/gamedev/guitest/cmake-build-debug",
-		"source" : "/Users/kam/stuff/gamedev/guitest"
+		"build" : "/Users/kam/stuff/remderer/cmake-build-debug",
+		"source" : "/Users/kam/stuff/remderer"
 	},
 	"version" : 
 	{

@@ -18,6 +18,6 @@ link_directories(${GLFW3_LIBRARY_DIRS})
 
 set(imgui_files imgui/imgui.cpp imgui/imgui_demo.cpp imgui/imgui_draw.cpp imgui/imgui_tables.cpp imgui/imgui_widgets.cpp imgui/backends/imgui_impl_glfw.cpp imgui/backends/imgui_impl_opengl3.cpp imgui/misc/cpp/imgui_stdlib.cpp)
 
-add_executable(${appName} ${imgui_files} glad/src/glad.c main.cpp)
+add_executable(${appName} ${imgui_files} glad/src/glad.c src/main.cpp)
 
 target_link_libraries(${appName} ${OPENGL_LIBRARIES} glfw dl)

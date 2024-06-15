@@ -61,28 +61,28 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics"
+					"fragment" : "-g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics"
 				}
 			],
 			"frameworks" : 
 			[
 				{
-					"path" : "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/OpenGL.framework"
+					"path" : "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/System/Library/Frameworks/OpenGL.framework"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 3,
-					"path" : "/Users/kam/stuff/gamedev/guitest/glad/include"
+					"path" : "/Users/kam/stuff/remderer/glad/include"
 				},
 				{
 					"backtrace" : 4,
-					"path" : "/Users/kam/stuff/gamedev/guitest/imgui"
+					"path" : "/Users/kam/stuff/remderer/imgui"
 				},
 				{
 					"backtrace" : 5,
-					"path" : "/Users/kam/stuff/gamedev/guitest/imgui/backends"
+					"path" : "/Users/kam/stuff/remderer/imgui/backends"
 				},
 				{
 					"backtrace" : 2,
@@ -116,28 +116,28 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics"
+					"fragment" : "-g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics"
 				}
 			],
 			"frameworks" : 
 			[
 				{
-					"path" : "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/OpenGL.framework"
+					"path" : "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/System/Library/Frameworks/OpenGL.framework"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 3,
-					"path" : "/Users/kam/stuff/gamedev/guitest/glad/include"
+					"path" : "/Users/kam/stuff/remderer/glad/include"
 				},
 				{
 					"backtrace" : 4,
-					"path" : "/Users/kam/stuff/gamedev/guitest/imgui"
+					"path" : "/Users/kam/stuff/remderer/imgui"
 				},
 				{
 					"backtrace" : 5,
-					"path" : "/Users/kam/stuff/gamedev/guitest/imgui/backends"
+					"path" : "/Users/kam/stuff/remderer/imgui/backends"
 				},
 				{
 					"backtrace" : 2,
