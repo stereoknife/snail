@@ -9,7 +9,7 @@ A bad opengl renderer
 
 # Where to go then? idk some ideas
 - Opengl wrapper ???
-- S-cene editor :)
+- S-scene editor :)
 - Rays????
 - Move opengl wrapper to zig??? to figure out how c interop works ????
 - Swift and metal, maybe, too

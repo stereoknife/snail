@@ -147,7 +147,7 @@ Index of this file:
 struct ImDrawChannel;               // Temporary storage to output draw commands out of order, used by ImDrawListSplitter and ImDrawList::ChannelsSplit()
 struct ImDrawCmd;                   // A single draw command within a parent ImDrawList (generally maps to 1 GPU draw call, unless it is a callback)
 struct ImDrawData;                  // All draw command lists required to render the frame + pos/size coordinates to use for the projection matrix.
-struct ImDrawList;                  // A single draw command list (generally one per window, conceptually you may see this as a dynamic "mesh" builder)
+struct ImDrawList;                  // A single draw command list (generally one per window, conceptually you may see this as a dynamic "Mesh" builder)
 struct ImDrawListSharedData;        // Data shared among multiple draw lists (typically owned by parent ImGui context, but you may create one yourself)
 struct ImDrawListSplitter;          // Helper to split a draw list into different layers which can be drawn into out of order, then flattened back.
 struct ImDrawVert;                  // A single vertex (pos + uv + col = 20 bytes by default. Override layout with IMGUI_OVERRIDE_DRAWVERT_STRUCT_LAYOUT)
@@ -2605,7 +2605,7 @@ typedef void (*ImDrawCallback)(const ImDrawList* parent_list, const ImDrawCmd* c
 // Special Draw callback value to request renderer backend to reset the graphics/render state.
 // The renderer backend needs to handle this special value, otherwise it will crash trying to call a function at this address.
 // This is useful, for example, if you submitted callbacks which you know have altered the render state and you want it to be restored.
-// Render state is not reset by default because they are many perfectly useful way of altering render state (e.g. changing shader/blending settings before an Image call).
+// Render state is not reset by default because they are many perfectly useful way of altering render state (e.g. changing Shader/blending settings before an Image call).
 #define ImDrawCallback_ResetRenderState     (ImDrawCallback)(-8)
 
 // Typically, 1 command = 1 GPU draw call (unless command is a callback)

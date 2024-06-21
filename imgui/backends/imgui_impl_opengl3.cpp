@@ -30,7 +30,7 @@
 //  2023-06-20: OpenGL: Fixed erroneous use glGetIntegerv(GL_CONTEXT_PROFILE_MASK) on contexts lower than 3.2. (#6539, #6333)
 //  2023-05-09: OpenGL: Support for glBindSampler() backup/restore on ES3. (#6375)
 //  2023-04-18: OpenGL: Restore front and back polygon mode separately when supported by context. (#6333)
-//  2023-03-23: OpenGL: Properly restoring "no shader program bound" if it was the case prior to running the rendering function. (#6267, #6220, #6224)
+//  2023-03-23: OpenGL: Properly restoring "no Shader program bound" if it was the case prior to running the rendering function. (#6267, #6220, #6224)
 //  2023-03-15: OpenGL: Fixed GL loader crash when GL_VERSION returns NULL. (#6154, #4445, #3530)
 //  2023-03-06: OpenGL: Fixed restoration of a potentially deleted OpenGL program, by calling glIsProgram(). (#6220, #6224)
 //  2022-11-09: OpenGL: Reverted use of glBufferSubData(), too many corruptions issues + old issues seemingly can't be reproed with Intel drivers nowadays (revert 2021-12-15 and 2022-05-23 changes).
@@ -39,11 +39,11 @@
 //  2022-05-23: OpenGL: Reworking 2021-12-15 "Using buffer orphaning" so it only happens on Intel GPU, seems to cause problems otherwise. (#4468, #4825, #4832, #5127).
 //  2022-05-13: OpenGL: Fixed state corruption on OpenGL ES 2.0 due to not preserving GL_ELEMENT_ARRAY_BUFFER_BINDING and vertex attribute states.
 //  2021-12-15: OpenGL: Using buffer orphaning + glBufferSubData(), seems to fix leaks with multi-viewports with some Intel HD drivers.
-//  2021-08-23: OpenGL: Fixed ES 3.0 shader ("#version 300 es") use normal precision floats to avoid wobbly rendering at HD resolutions.
+//  2021-08-23: OpenGL: Fixed ES 3.0 Shader ("#version 300 es") use normal precision floats to avoid wobbly rendering at HD resolutions.
 //  2021-08-19: OpenGL: Embed and use our own minimal GL loader (imgui_impl_opengl3_loader.h), removing requirement and support for third-party loader.
 //  2021-06-29: Reorganized backend to pull data from a single structure to facilitate usage with multiple-contexts (all g_XXXX access changed to bd->XXXX).
 //  2021-06-25: OpenGL: Use OES_vertex_array extension on Emscripten + backup/restore current state.
-//  2021-06-21: OpenGL: Destroy individual vertex/fragment shader objects right after they are linked into the main shader.
+//  2021-06-21: OpenGL: Destroy individual vertex/fragment Shader objects right after they are linked into the main Shader.
 //  2021-05-24: OpenGL: Access GL_CLIP_ORIGIN when "GL_ARB_clip_control" extension is detected, inside of just OpenGL 4.5 version.
 //  2021-05-19: OpenGL: Replaced direct access to ImDrawCmd::TextureId with a call to ImDrawCmd::GetTexID(). (will become a requirement)
 //  2021-04-06: OpenGL: Don't try to read GL_CLIP_ORIGIN unless we're OpenGL 4.5 or greater.
@@ -61,7 +61,7 @@
 //  2019-10-25: OpenGL: Using a combination of GL define and runtime GL version to decide whether to use glDrawElementsBaseVertex(). Fix building with pre-3.2 GL loaders.
 //  2019-09-22: OpenGL: Detect default GL loader using __has_include compiler facility.
 //  2019-09-16: OpenGL: Tweak initialization code to allow application calling ImGui_ImplOpenGL3_CreateFontsTexture() before the first NewFrame() call.
-//  2019-05-29: OpenGL: Desktop GL only: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags_RendererHasVtxOffset flag.
+//  2019-05-29: OpenGL: Desktop GL only: Added support for large Mesh (64K+ vertices), enable ImGuiBackendFlags_RendererHasVtxOffset flag.
 //  2019-04-30: OpenGL: Added support for special ImDrawCallback_ResetRenderState callback to reset render state.
 //  2019-03-29: OpenGL: Not calling glBindBuffer more than necessary in the render loop.
 //  2019-03-15: OpenGL: Added a GL call + comments in ImGui_ImplOpenGL3_Init() to detect uninitialized GL function loaders early.
@@ -82,7 +82,7 @@
 //  2018-03-06: OpenGL: Added const char* glsl_version parameter to ImGui_ImplOpenGL3_Init() so user can override the GLSL version e.g. "#version 150".
 //  2018-02-23: OpenGL: Create the VAO in the render function so the setup can more easily be used with multiple shared GL context.
 //  2018-02-16: Misc: Obsoleted the io.RenderDrawListsFn callback and exposed ImGui_ImplSdlGL3_RenderDrawData() in the .h file so you can call it yourself.
-//  2018-01-07: OpenGL: Changed GLSL shader version from 330 to 150.
+//  2018-01-07: OpenGL: Changed GLSL Shader version from 330 to 150.
 //  2017-09-01: OpenGL: Save and restore current bound sampler. Save and restore current polygon mode.
 //  2017-05-01: OpenGL: Fixed save and restore of current blend func state.
 //  2017-05-01: OpenGL: Fixed save and restore of current GL_ACTIVE_TEXTURE.
@@ -891,20 +891,20 @@ bool    ImGui_ImplOpenGL3_CreateDeviceObjects()
     GLuint vert_handle = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vert_handle, 2, vertex_shader_with_version, nullptr);
     glCompileShader(vert_handle);
-    CheckShader(vert_handle, "vertex shader");
+    CheckShader(vert_handle, "vertex Shader");
 
     const GLchar* fragment_shader_with_version[2] = { bd->GlslVersionString, fragment_shader };
     GLuint frag_handle = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(frag_handle, 2, fragment_shader_with_version, nullptr);
     glCompileShader(frag_handle);
-    CheckShader(frag_handle, "fragment shader");
+    CheckShader(frag_handle, "fragment Shader");
 
     // Link
     bd->ShaderHandle = glCreateProgram();
     glAttachShader(bd->ShaderHandle, vert_handle);
     glAttachShader(bd->ShaderHandle, frag_handle);
     glLinkProgram(bd->ShaderHandle);
-    CheckProgram(bd->ShaderHandle, "shader program");
+    CheckProgram(bd->ShaderHandle, "Shader program");
 
     glDetachShader(bd->ShaderHandle, vert_handle);
     glDetachShader(bd->ShaderHandle, frag_handle);

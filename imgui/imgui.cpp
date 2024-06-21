@@ -376,7 +376,7 @@ CODE
        // TODO: Setup texture sampling state: sample with bilinear filtering (NOT point/nearest filtering). Use 'io.Fonts->Flags |= ImFontAtlasFlags_NoBakedLines;' to allow point/nearest filtering.
        // TODO: Setup viewport covering draw_data->DisplayPos to draw_data->DisplayPos + draw_data->DisplaySize
        // TODO: Setup orthographic projection matrix cover draw_data->DisplayPos to draw_data->DisplayPos + draw_data->DisplaySize
-       // TODO: Setup shader: vertex { float2 pos, float2 uv, u32 color }, fragment shader sample color from 1 texture, multiply by vertex color.
+       // TODO: Setup Shader: vertex { float2 pos, float2 uv, u32 color }, fragment Shader sample color from 1 texture, multiply by vertex color.
        ImVec2 clip_off = draw_data->DisplayPos;
        for (int n = 0; n < draw_data->CmdListsCount; n++)
        {
@@ -14580,7 +14580,7 @@ void ImGui::ShowMetricsWindow(bool* p_open)
         drawlist_count += viewport->DrawDataP.CmdLists.Size;
     if (TreeNode("DrawLists", "DrawLists (%d)", drawlist_count))
     {
-        Checkbox("Show ImDrawCmd mesh when hovering", &cfg->ShowDrawCmdMesh);
+        Checkbox("Show ImDrawCmd Mesh when hovering", &cfg->ShowDrawCmdMesh);
         Checkbox("Show ImDrawCmd bounding boxes when hovering", &cfg->ShowDrawCmdBoundingBoxes);
         for (ImGuiViewportP* viewport : g.Viewports)
             for (ImDrawList* draw_list : viewport->DrawDataP.CmdLists)
@@ -15116,7 +15116,7 @@ void ImGui::DebugNodeDrawList(ImGuiWindow* window, ImGuiViewportP* viewport, con
     TreePop();
 }
 
-// [DEBUG] Display mesh/aabb of a ImDrawCmd
+// [DEBUG] Display Mesh/aabb of a ImDrawCmd
 void ImGui::DebugNodeDrawCmdShowMeshAndBoundingBox(ImDrawList* out_draw_list, const ImDrawList* draw_list, const ImDrawCmd* draw_cmd, bool show_mesh, bool show_aabb)
 {
     IM_ASSERT(show_mesh || show_aabb);
@@ -15135,7 +15135,7 @@ void ImGui::DebugNodeDrawCmdShowMeshAndBoundingBox(ImDrawList* out_draw_list, co
         for (int n = 0; n < 3; n++, idx_n++)
             vtxs_rect.Add((triangle[n] = vtx_buffer[idx_buffer ? idx_buffer[idx_n] : idx_n].pos));
         if (show_mesh)
-            out_draw_list->AddPolyline(triangle, 3, IM_COL32(255, 255, 0, 255), ImDrawFlags_Closed, 1.0f); // In yellow: mesh triangles
+            out_draw_list->AddPolyline(triangle, 3, IM_COL32(255, 255, 0, 255), ImDrawFlags_Closed, 1.0f); // In yellow: Mesh triangles
     }
     // Draw bounding boxes
     if (show_aabb)
