@@ -1,5 +1,5 @@
 # remderer
-An opengl renderer based on a uni assignment (link to assignment repo here please)
+An opengl renderer based on uni assignments PBR and [SSAO](https://github.com/stereoknife/SSAO)
 
 # Roadmap
 1. Get something to render
