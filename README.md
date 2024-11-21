@@ -1,5 +1,5 @@
 # remderer
-A bad opengl renderer
+An opengl renderer based on a uni assignment (link to assignment repo here please)
 
 # Roadmap
 1. Get something to render
