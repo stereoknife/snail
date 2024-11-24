@@ -1,15 +1,8 @@
 # remderer
-An opengl renderer based on uni assignments PBR and [SSAO](https://github.com/stereoknife/SSAO)
+An opengl renderer that aims to unify my previous [PBR](https://github.com/stereoknife/PBR) and [SSAO](https://github.com/stereoknife/SSAO) assignments from uni. I'm currently still working on getting the OpenGL stuff set up but I haven't had much time for it due to work and other uni work. In the meantime you can check out the other projects above.
 
 # Roadmap
 1. Get something to render
 2. Make a UI to tweak things
 3. Get something to render but nicer (pbr)
-4. Maybe ssao? just copying features from uni project
-
-# Where to go then? idk some ideas
-- Opengl wrapper ???
-- S-scene editor :)
-- Rays????
-- Move opengl wrapper to zig??? to figure out how c interop works ????
-- Swift and metal, maybe, too
+4. SSAO
