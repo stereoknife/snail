@@ -6,6 +6,7 @@
 #define GUITEST_TYPES_H
 
 #include "glad/glad.h"
+#include <glm/glm.hpp>
 
 using b1 = GLboolean;
 using b32 = GLbitfield;
@@ -36,5 +37,10 @@ using ptr = GLintptr;
 using ptrsize = GLsizeiptr;
 
 using glsync = GLsync;
+
+using vec3 = glm::vec3;
+
+using mat3 = glm::mat3;
+using mat4 = glm::mat4;
 
 #endif //GUITEST_TYPES_H

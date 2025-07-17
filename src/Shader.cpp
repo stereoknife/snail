@@ -85,15 +85,21 @@ Shader::Shader(const char *vtx_filename, const char *frag_filename) {
     glDeleteShader(frag);
 }
 
-auto Shader::set_float(f32 val) -> void {
+// Getter
+auto Shader::get_location(const char *name) -> s32 {
+    return glGetUniformLocation(id, name);
+}
+
+// Setter
+auto Shader::set_float(const char* name, f32 val) -> void {
+    s32 loc = glGetUniformLocation(id, name);
+}
+
+auto Shader::set_int(const char* name, s32 val) -> void {
 
 }
 
-auto Shader::set_int(s32 val) -> void {
-
-}
-
-auto Shader::set_bool(b1 val) -> void {
+auto Shader::set_bool(const char* name, b1 val) -> void {
 
 }
 

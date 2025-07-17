@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 3.28)
-project(remderer)
+cmake_minimum_required(VERSION 3.31)
+project(vv)
 
+set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk)
 set(CMAKE_CXX_STANDARD 20)
-set(appName remderer)
+set(appName vv)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
@@ -16,6 +17,7 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 include_directories(${GLFW3_INCLUDE_DIRS})
 include_directories(${ASSIMP_INCLUDE_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
+include_directories("vendor/include")
 include_directories("src")
 
 link_directories(${OPENGL_LIBRARY_DIRS})
@@ -26,8 +28,11 @@ set(app_files
     src/main.cpp
     src/Shader.cpp
     src/Mesh.cpp
+    src/Texture.cpp
+        src/Camera.cpp
+        src/Camera.h
 )
 
-add_executable(${appName} ${imgui_files} glad/src/glad.c ${app_files})
+add_executable(${appName} ${imgui_files} glad/src/glad.c vendor/stb_image.cpp ${app_files})
 
 target_link_libraries(${appName} ${OPENGL_LIBRARIES} glfw dl)
