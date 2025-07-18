@@ -18,7 +18,7 @@ struct Vertex {
 
 class Mesh {
     std::vector<f32> vertices;
-    std::vector<s32> indices;
+    std::vector<u32> indices;
     std::vector<f32> normals;
     std::vector<f32> tex_coords;
 
@@ -26,21 +26,23 @@ class Mesh {
     u32 vbo_v;
     u32 vbo_i;
     u32 vbo_t;
-    u32 ibo_n;
+    u32 vbo_n;
 
 public:
-    // Mesh();
-    Mesh(std::vector<f32> v, std::vector<s32> i, std::vector<f32> t);
+    Mesh();
+    Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> t);
+    Mesh(std::string filename);
 
     static auto quad(f32 width, f32 height) -> Mesh;
     static auto cube(f32 side) -> Mesh;
 
-    auto render()                                   -> void;
+    auto render() const -> void;
     auto set_vertices(std::vector<f32> vertices)    -> void;
-    auto set_indices(std::vector<f32> indices)      -> void;
+    auto set_indices(std::vector<u32> indices)      -> void;
     auto set_tex_coords(std::vector<f32> tex_coords)-> void;
     auto set_normals(std::vector<f32> normals)      -> void;
     auto set_uv(std::vector<f32> uv)                -> void;
+    auto update()                                   -> void;
 
 private:
     auto init() -> void;
