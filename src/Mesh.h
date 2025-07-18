@@ -8,15 +8,25 @@
 #include "types.h"
 #include <vector>
 
+/*
+struct Vertex {
+    vec3 position;
+    vec3 normal;
+    vec2 tex_coord;
+};
+*/
+
 class Mesh {
     std::vector<f32> vertices;
     std::vector<s32> indices;
+    std::vector<f32> normals;
     std::vector<f32> tex_coords;
 
     u32 vao;
     u32 vbo_v;
     u32 vbo_i;
     u32 vbo_t;
+    u32 ibo_n;
 
 public:
     // Mesh();
@@ -29,6 +39,7 @@ public:
     auto set_vertices(std::vector<f32> vertices)    -> void;
     auto set_indices(std::vector<f32> indices)      -> void;
     auto set_tex_coords(std::vector<f32> tex_coords)-> void;
+    auto set_normals(std::vector<f32> normals)      -> void;
     auto set_uv(std::vector<f32> uv)                -> void;
 
 private:

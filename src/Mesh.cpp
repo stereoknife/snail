@@ -92,6 +92,22 @@ auto Mesh::render() -> void {
     glBindVertexArray(0);
 }
 
+auto Mesh::set_vertices(std::vector<f32> vertices) -> void {
+    vertices = std::move(vertices);
+}
+
+auto Mesh::set_indices(std::vector<f32> indices) -> void {
+    indices = std::move(indices);
+}
+
+auto Mesh::set_tex_coords(std::vector<f32> tex_coords) -> void {
+    tex_coords = std::move(tex_coords);
+}
+
+auto Mesh::set_normals(std::vector<f32> normals) -> void {
+    normals = std::move(normals);
+}
+
 auto Mesh::init() -> void {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);

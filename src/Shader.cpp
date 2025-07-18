@@ -92,15 +92,15 @@ auto Shader::get_location(const char *name) -> s32 {
 
 // Setter
 auto Shader::set_float(const char* name, f32 val) -> void {
-    s32 loc = glGetUniformLocation(id, name);
+    glUniform1f(glGetUniformLocation(id, name), val);
 }
 
 auto Shader::set_int(const char* name, s32 val) -> void {
-
+    glUniform1i(glGetUniformLocation(id, name), val);
 }
 
 auto Shader::set_bool(const char* name, b1 val) -> void {
-
+    glUniform1i(glGetUniformLocation(id, name), (s32)val);
 }
 
 auto Shader::enable() -> void {
