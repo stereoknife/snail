@@ -9,9 +9,9 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <vector>
 
 #include "Camera.h"
+#include "UI.h"
 
 struct Input {
     bool forward;
@@ -124,6 +124,23 @@ int main() {
         m.render();
 
         // Render IMGUI here
+
+        const ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+        ImGui::SetNextWindowPos(ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(200, viewport->Size.y), ImGuiCond_FirstUseEver);
+
+        ImGui::Begin("Import", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+        if (ImGui::Button("Load model")) {
+            NFD::Guard nfdGuard;
+            NFD::UniquePath outPath;
+            if (NFD::OpenDialog(outPath) == NFD_OKAY) {
+                m = Mesh(outPath.get());
+            }
+        }
+        ImGui::End();
+
+        //ImGui::ShowDemoWindow();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }

@@ -41,7 +41,7 @@ Mesh::Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> t) :
     update();
 }
 
-Mesh::Mesh(std::string filename) : Mesh() {
+Mesh::Mesh(const char* filename) : Mesh() {
     Assimp::Importer import;
     const aiScene* scn = import.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FlipUVs);
 
@@ -53,7 +53,7 @@ Mesh::Mesh(std::string filename) : Mesh() {
 
     aiNode* n = scn->mRootNode;
 
-    if (n->mNumMeshes > 0) std::cout << "WARNING::ASSIMP::Only one mesh allowed to be imported" << std::endl;
+    if (n->mNumMeshes > 1) std::cout << "WARNING::ASSIMP::Only one mesh allowed to be imported" << std::endl;
 
     aiMesh* m = scn->mMeshes[0];
 
@@ -85,7 +85,12 @@ Mesh::Mesh(std::string filename) : Mesh() {
             indices.push_back(f.mIndices[j]);
         }
     }
+
+    init();
+    update();
 }
+
+Mesh::Mesh(const std::string& filename) : Mesh(filename.c_str()) {}
 
 auto Mesh::quad(f32 width, f32 height) -> Mesh {
     f32 hw = width / 2;

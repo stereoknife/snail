@@ -31,7 +31,8 @@ class Mesh {
 public:
     Mesh();
     Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> t);
-    Mesh(std::string filename);
+    explicit Mesh(const std::string& filename);
+    explicit Mesh(const char* filename);
 
     static auto quad(f32 width, f32 height) -> Mesh;
     static auto cube(f32 side) -> Mesh;
