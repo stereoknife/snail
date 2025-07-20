@@ -1,13 +1,10 @@
 //
 // Created by kam on 17.7.2025.
 //
-
-#include "types.h"
-
 #ifndef CAMERA_H
 #define CAMERA_H
 
-
+#include "types.h"
 
 class Camera {
     vec3 position;

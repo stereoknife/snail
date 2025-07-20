@@ -34,7 +34,9 @@ set(app_files
     src/Texture.cpp
     src/Camera.cpp
     src/Camera.h
-        src/UI.h
+    src/UI.h
+    src/Root.cpp
+    src/Root.h
 )
 
 add_executable(${appName} ${imgui_files} glad/src/glad.c vendor/stb_image.cpp ${app_files})

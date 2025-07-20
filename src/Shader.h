@@ -8,7 +8,6 @@
 #include "types.h"
 
 class Shader {
-private:
     s32 id;
 
 public:
