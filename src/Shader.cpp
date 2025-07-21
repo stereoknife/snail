@@ -8,9 +8,8 @@
 #include <sstream>
 #include <iostream>
 
-Shader::Shader(const char *filename) {
-
-}
+Shader::Shader(const char *filename) :
+    Shader(std::string(filename) + ".vert", std::string(filename) + ".frag") {}
 
 Shader::Shader(const char *vtx_filename, const char *frag_filename) {
     std::string vtx_str;
@@ -36,7 +35,7 @@ Shader::Shader(const char *vtx_filename, const char *frag_filename) {
         frag_str = frag_stream.str();
     }
     catch(std::ifstream::failure& e) {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
     }
 
     u32 vtx, frag;
@@ -85,24 +84,27 @@ Shader::Shader(const char *vtx_filename, const char *frag_filename) {
     glDeleteShader(frag);
 }
 
+Shader::Shader(const std::string& vtx_filename, const std::string &frag_filename) :
+    Shader(vtx_filename.c_str(), frag_filename.c_str()) {}
+
 // Getter
-auto Shader::get_location(const char *name) -> s32 {
+auto Shader::get_location(const char *name) const -> s32 {
     return glGetUniformLocation(id, name);
 }
 
 // Setter
-auto Shader::set_float(const char* name, f32 val) -> void {
+auto Shader::set_float(const char* name, const f32 val) const -> void {
     glUniform1f(glGetUniformLocation(id, name), val);
 }
 
-auto Shader::set_int(const char* name, s32 val) -> void {
+auto Shader::set_int(const char* name, const s32 val) const -> void {
     glUniform1i(glGetUniformLocation(id, name), val);
 }
 
-auto Shader::set_bool(const char* name, b1 val) -> void {
-    glUniform1i(glGetUniformLocation(id, name), (s32)val);
+auto Shader::set_bool(const char* name, const b1 val) const -> void {
+    glUniform1i(glGetUniformLocation(id, name), static_cast<s32>(val));
 }
 
-auto Shader::enable() -> void {
+auto Shader::enable() const -> void {
     glUseProgram(id);
 }

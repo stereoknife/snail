@@ -16,17 +16,26 @@ public:
         Border = GL_CLAMP_TO_BORDER
     };
 
+    enum class Type {
+        Texture2D, Cubemap
+    };
+
 private:
     u32 id;
+    Type type;
+
+    explicit Texture (Type type);
 
 public:
-    explicit Texture (const char* filename);
+    //Texture(Type type, const char* filename);
+    static auto Texture2D(const char* filename) -> Texture;
+    static auto Cubemap(const char* path, const char* extension) -> Texture;
 
     auto set_wrap(Wrap s, Wrap t) const -> void;
     auto set_wrap_s(Wrap s) const       -> void;
     auto set_wrap_t(Wrap t) const       -> void;
 
-    auto get_id()                       -> s32;
+    auto get_id() const                 -> u32;
 };
 
 

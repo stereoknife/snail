@@ -58,7 +58,7 @@ auto Root::init() -> void {
 
     meshes.push_back(Mesh::cube(1.f));
     shaders.emplace_back("../shaders/texture.vert", "../shaders/texture.frag");
-    textures.emplace_back("../wall.jpg");
+    textures.push_back(Texture::Texture2D("../wall.jpg"));
 
     glEnable(GL_DEPTH_TEST);
 }
@@ -67,6 +67,7 @@ auto Root::loop() -> void {
     Shader& sh = shaders[0];
     Texture& tx = textures[0];
     Mesh& m = meshes[0];
+    Mesh sb = Mesh::cube(50.f);
 
     while(!glfwWindowShouldClose(window))
     {
@@ -74,7 +75,7 @@ auto Root::loop() -> void {
         glfwGetWindowSize(window, &w, &h);
         auto model = glm::mat4(1.0f);
         auto view = camera.view();
-        auto projection = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
+        auto projection = glm::perspective(glm::radians(45.0f), static_cast<float>(w) / static_cast<float>(h), 0.1f, 100.0f);
 
         process_input();
         glfwSwapBuffers(window);
@@ -134,6 +135,13 @@ auto Root::process_input() -> void {
     i.left = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
     i.right = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
     */
+}
+
+auto Root::load_shaders() -> void {
+    shaders.emplace_back("phong");
+    shaders.emplace_back("reflection");
+    shaders.emplace_back("pbs");
+    shaders.emplace_back("ibl-pbs");
 }
 
 auto Root::framebuffer_size_callback(GLFWwindow* window, int width, int height) -> void

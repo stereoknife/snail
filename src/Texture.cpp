@@ -6,9 +6,12 @@
 #include "stb_image.h"
 #include "Texture.h"
 
-Texture::Texture(const char *filename) {
-    glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);
+Texture::Texture(const Type type) : id{}, type{type} {}
+
+auto Texture::Texture2D(const char *filename) -> Texture {
+    Texture tex{Type::Texture2D};
+    glGenTextures(1, &tex.id);
+    glBindTexture(GL_TEXTURE_2D, tex.id);
 
     s32 width, height, n_channels;
     u8 *data = stbi_load(filename, &width, &height, &n_channels, 0);
@@ -27,27 +30,63 @@ Texture::Texture(const char *filename) {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     stbi_image_free(data);
+    return tex;
+}
+
+auto Texture::Cubemap(const char* path, const char* extension) -> Texture {
+    Texture tex{Type::Cubemap};
+
+    glGenTextures(1, &tex.id);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, tex.id);
+
+    s32 width, height, n_channels;
+
+    auto load = [&](const u32 target, const char* file) -> void {
+        u8* data = stbi_load(std::format("{}/{}.{}", path, file, extension).c_str(), &width, &height, &n_channels, 0);
+        if (data) {
+            glTexImage2D(target, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        } else {
+            std::cout << "ERROR::TEXTURE::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        }
+        stbi_image_free(data);
+    };
+
+    load(GL_TEXTURE_CUBE_MAP_POSITIVE_X, "right.png");
+    load(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, "left.png");
+    load(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, "top.png");
+    load(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, "bottom.png");
+    load(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, "back.png");
+    load(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, "front.png");
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return tex;
 }
 
 auto Texture::set_wrap(Texture::Wrap s, Texture::Wrap t) const -> void {
     glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (s32)s);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (s32)t);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<s32>(s));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<s32>(t));
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 auto Texture::set_wrap_s(Texture::Wrap s) const -> void {
     glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (s32)s);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<s32>(s));
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 auto Texture::set_wrap_t(Texture::Wrap t) const -> void {
     glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (s32)t);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<s32>(t));
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-auto Texture::get_id() -> s32 {
+auto Texture::get_id() const -> u32 {
     return id;
 }

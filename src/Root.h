@@ -26,7 +26,8 @@ namespace Root {
      auto loop() -> void;
      auto cleanup() -> void;
      auto process_input() -> void;
-    
+
+     auto load_shaders() -> void;
      auto framebuffer_size_callback(GLFWwindow* window, int width, int height) -> void;
 }
 
