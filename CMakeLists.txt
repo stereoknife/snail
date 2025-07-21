@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.31)
-project(vv)
+project(snail)
 
 set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk)
 set(CMAKE_CXX_STANDARD 20)
-set(appName vv)
+set(appName snail)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
