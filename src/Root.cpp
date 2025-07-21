@@ -13,9 +13,7 @@
 
 #include "Root.h"
 
-Root::Root() {
-    init();
-}
+#include "UI.h"
 
 auto Root::init() -> void {
     glfwInit();
@@ -24,8 +22,8 @@ auto Root::init() -> void {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    window = glfwCreateWindow(800, 600, "My cool windy", NULL, NULL);
-    if (window == NULL)
+    window = glfwCreateWindow(800, 600, "My cool windy", nullptr, nullptr);
+    if (window == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -66,15 +64,18 @@ auto Root::init() -> void {
 }
 
 auto Root::loop() -> void {
-    auto model = glm::mat4(1.0f);
-    auto view = camera.view();
-    auto projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    auto sh = shaders[0];
-    auto tx = textures[0];
-    auto m = meshes[0];
+    Shader& sh = shaders[0];
+    Texture& tx = textures[0];
+    Mesh& m = meshes[0];
 
     while(!glfwWindowShouldClose(window))
     {
+        s32 w, h;
+        glfwGetWindowSize(window, &w, &h);
+        auto model = glm::mat4(1.0f);
+        auto view = camera.view();
+        auto projection = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
+
         process_input();
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -111,25 +112,7 @@ auto Root::loop() -> void {
         m.render();
 
         // Render IMGUI here
-
-        const ImGuiViewport* viewport = ImGui::GetMainViewport();
-
-        ImGui::SetNextWindowPos(ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(200, viewport->Size.y), ImGuiCond_FirstUseEver);
-
-        ImGui::Begin("Import", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-        if (ImGui::Button("Load model")) {
-            NFD::Guard nfdGuard;
-            NFD::UniquePath outPath;
-            if (NFD::OpenDialog(outPath) == NFD_OKAY) {
-                m = Mesh(outPath.get());
-            }
-        }
-        ImGui::End();
-
-        //ImGui::ShowDemoWindow();
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        UI::draw();
     }
 }
 
