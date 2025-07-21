@@ -23,8 +23,7 @@ auto UI::draw() -> void {
                 NFD::UniquePath outPath;
                 if (NFD::OpenDialog(outPath) == NFD_OKAY) {
                     //std::cout << "loading mesh: " << outPath << std::endl;
-                    Root::meshes.clear();
-                    Root::meshes.emplace_back(outPath.get());
+                    Root::meshes[1] = Mesh{outPath.get()};
                 }
             }
             ImGui::EndMenu();

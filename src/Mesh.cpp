@@ -204,12 +204,17 @@ auto Mesh::set_uv(std::vector<f32> uv) -> void {
 auto Mesh::update() -> void {
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
-    glBufferData(GL_ARRAY_BUFFER, (s32)(vertices.size() * sizeof(f32)), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<ptrsize>(vertices.size() * sizeof(f32)), &vertices[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<ptrsize>(normals.size() * sizeof(f32)), &normals[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
+    glEnableVertexAttribArray(1);
+
     glBindBuffer(GL_ARRAY_BUFFER, vbo_t);
-    glBufferData(GL_ARRAY_BUFFER, (s32)(tex_coords.size() * sizeof(f32)), &tex_coords[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<ptrsize>(tex_coords.size() * sizeof(f32)), &tex_coords[0], GL_STATIC_DRAW);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(1);
 

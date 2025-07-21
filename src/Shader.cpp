@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
 Shader::Shader(const char *filename) :
     Shader(std::string(filename) + ".vert", std::string(filename) + ".frag") {}
@@ -105,6 +106,10 @@ auto Shader::set_bool(const char* name, const b1 val) const -> void {
     glUniform1i(glGetUniformLocation(id, name), static_cast<s32>(val));
 }
 
-auto Shader::enable() const -> void {
+auto Shader::set_mat4(const char *name, const mat4 &mat) const -> void {
+    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(mat));
+}
+
+auto Shader::bind() const -> void {
     glUseProgram(id);
 }

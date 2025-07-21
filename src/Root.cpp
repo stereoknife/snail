@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "glad/glad.h"
 #include "imgui.h"
@@ -21,6 +21,7 @@ auto Root::init() -> void {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
     window = glfwCreateWindow(800, 600, "My cool windy", nullptr, nullptr);
     if (window == nullptr)
@@ -56,24 +57,25 @@ auto Root::init() -> void {
     ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
     ImGui_ImplOpenGL3_Init();
 
+    meshes.push_back(Mesh::cube(50.f));
     meshes.push_back(Mesh::cube(1.f));
+    shaders.emplace_back("../shaders/sky.vert", "../shaders/sky.frag");
     shaders.emplace_back("../shaders/texture.vert", "../shaders/texture.frag");
-    textures.push_back(Texture::Texture2D("../wall.jpg"));
+    shaders.emplace_back("../shaders/reflection.vert", "../shaders/reflection.frag");
+    textures.push_back(Texture::Cubemap("../textures/desert", "png"));
+    textures.push_back(Texture::Texture2D("../textures/wall.jpg"));
 
     glEnable(GL_DEPTH_TEST);
 }
 
 auto Root::loop() -> void {
-    Shader& sh = shaders[0];
-    Texture& tx = textures[0];
-    Mesh& m = meshes[0];
-    Mesh sb = Mesh::cube(50.f);
+    auto model = glm::mat4(1.0f);
 
     while(!glfwWindowShouldClose(window))
     {
         s32 w, h;
         glfwGetWindowSize(window, &w, &h);
-        auto model = glm::mat4(1.0f);
+
         auto view = camera.view();
         auto projection = glm::perspective(glm::radians(45.0f), static_cast<float>(w) / static_cast<float>(h), 0.1f, 100.0f);
 
@@ -86,31 +88,37 @@ auto Root::loop() -> void {
         ImGui::NewFrame();
 
         // Render here
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.f, 0.f, 0.f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        sh.enable();
+        // Skybox
+        shaders[0].bind();
+        textures[0].bind(GL_TEXTURE0);
 
-        //s32 unif = sh.get_location("color");
-        //glUniform4f(unif, 1.f, 0.5f, 0.9f, 1.f);
+        shaders[0].set_int("specular_map", 0);
+        shaders[0].set_mat4("view", view);
+        shaders[0].set_mat4("projection", projection);
 
-        s32 unif = sh.get_location("boundTexture");
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, tx.get_id());
-        glUniform1i(unif, 0);
+        meshes[0].render();
 
+        auto err = glGetError();
+        if (err != GL_NO_ERROR) {
+            std::cout << "OpenGL Error: " << err << std::endl;
+        }
+
+        // Mesh
         model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
-        s32 modelLoc = sh.get_location("model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        u32 sh = 2;
 
-        s32 viewLoc = sh.get_location("view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        shaders[sh].bind();
+        textures[1].bind(GL_TEXTURE0);
+        shaders[sh].set_int("specular_map", 0);
+        shaders[sh].set_mat4("model", model);
+        shaders[sh].set_mat4("view", view);
+        shaders[sh].set_mat4("projection", projection);
 
-        s32 projLoc = sh.get_location("projection");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-        m.render();
+        meshes[1].render();
 
         // Render IMGUI here
         UI::draw();

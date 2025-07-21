@@ -17,7 +17,8 @@ public:
     };
 
     enum class Type {
-        Texture2D, Cubemap
+        Texture2D = GL_TEXTURE_2D,
+        Cubemap = GL_TEXTURE_CUBE_MAP
     };
 
 private:
@@ -36,6 +37,8 @@ public:
     auto set_wrap_t(Wrap t) const       -> void;
 
     auto get_id() const                 -> u32;
+
+    auto bind(s32 target) const -> void;
 };
 
 

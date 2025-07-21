@@ -23,7 +23,8 @@ public:
     auto set_float(const char* name, f32 val) const   -> void;
     auto set_int(const char* name, s32 val) const     -> void;
     auto set_bool(const char* name, b1 val) const     -> void;
-    auto enable() const                               -> void;
+    auto set_mat4(const char* name, const mat4 &mat) const  -> void;
+    auto bind() const                               -> void;
 };
 
 
