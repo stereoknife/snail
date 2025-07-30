@@ -30,7 +30,7 @@ class Mesh {
 
 public:
     Mesh();
-    Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> t);
+    Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> n, std::vector<f32> t);
     explicit Mesh(const std::string& filename);
     explicit Mesh(const char* filename);
 

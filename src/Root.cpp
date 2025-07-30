@@ -77,7 +77,7 @@ auto Root::loop() -> void {
         glfwGetWindowSize(window, &w, &h);
 
         auto view = camera.view();
-        auto projection = glm::perspective(glm::radians(45.0f), static_cast<float>(w) / static_cast<float>(h), 0.1f, 100.0f);
+        auto projection = camera.projection();
 
         process_input();
         glfwSwapBuffers(window);
@@ -103,7 +103,7 @@ auto Root::loop() -> void {
 
         auto err = glGetError();
         if (err != GL_NO_ERROR) {
-            std::cout << "OpenGL Error: " << err << std::endl;
+            //std::cout << "OpenGL Error: " << err << std::endl;
         }
 
         // Mesh
@@ -134,8 +134,34 @@ auto Root::cleanup() -> void {
 }
 
 auto Root::process_input() -> void {
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    auto& io = ImGui::GetIO();
+
+    double x_mouse, y_mouse;
+    glfwGetCursorPos(window, &x_mouse, &y_mouse);
+    static double x_prev = x_mouse, y_prev = y_mouse;
+    double delta_x = x_mouse - x_prev;
+    double delta_y = y_mouse - y_prev;
+    x_prev = x_mouse;
+    y_prev = y_mouse;
+
+    if (!io.WantCaptureKeyboard) {
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, true);
+    }
+
+    if (!io.WantCaptureMouse) {
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+            // Capture mouse
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            camera.mouse_input(delta_x, delta_y);
+        }
+
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE) {
+            // Release mouse
+            //glfwSetCursorPosCallback(window, nullptr);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+    }
 
     /*
     i.forward = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
@@ -143,6 +169,10 @@ auto Root::process_input() -> void {
     i.left = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
     i.right = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
     */
+}
+
+auto Root::mouse_input(GLFWwindow* window, double x_pos, double y_pos) -> void {
+    camera.mouse_input(x_pos, y_pos);
 }
 
 auto Root::load_shaders() -> void {

@@ -26,10 +26,10 @@ Mesh::Mesh() :
     init();
 }
 
-Mesh::Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> t) :
+Mesh::Mesh(std::vector<f32> v, std::vector<u32> i, std::vector<f32> n, std::vector<f32> t) :
     vertices{std::move(v)},
     indices{std::move(i)},
-    normals{},
+    normals{std::move(n)},
     tex_coords{std::move(t)},
     vao{},
     vbo_v{},
@@ -106,6 +106,7 @@ auto Mesh::quad(f32 width, f32 height) -> Mesh {
             0, 1, 2,
             2, 3, 0
         },
+        std::vector<f32> {},
         std::vector {
             0.f, 0.f,
             1.f, 0.f,
@@ -151,6 +152,16 @@ auto Mesh::cube(f32 side) -> Mesh {
                 2, 3, 7,
                 7, 6, 2
         },
+        std::vector<f32>{
+            -hs, -hs, -hs, // 0 - L B F
+            -hs, -hs,  hs, // 1 - L B K
+            -hs,  hs, -hs, // 2 - L T F
+            -hs,  hs,  hs, // 3 - L T K
+             hs, -hs, -hs, // 4 - R B F
+             hs, -hs,  hs, // 5 - R B K
+             hs,  hs, -hs, // 6 - R T F
+             hs,  hs,  hs, // 7 - R T K
+        },
         std::vector<f32> {
                 0.f, 0.f,
                 1.f, 0.f,
@@ -162,7 +173,7 @@ auto Mesh::cube(f32 side) -> Mesh {
 
 auto Mesh::render() const -> void {
     glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, (s32)indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (s32)indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
@@ -198,7 +209,7 @@ auto Mesh::set_uv(std::vector<f32> uv) -> void {
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_t);
     glBufferData(GL_ARRAY_BUFFER, (s32)(uv.size() * sizeof(f32)), &uv[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(f32), (void*)nullptr);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(f32), (void*)nullptr);
 }
 
 auto Mesh::update() -> void {
@@ -210,13 +221,13 @@ auto Mesh::update() -> void {
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
     glBufferData(GL_ARRAY_BUFFER, static_cast<ptrsize>(normals.size() * sizeof(f32)), &normals[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo_t);
     glBufferData(GL_ARRAY_BUFFER, static_cast<ptrsize>(tex_coords.size() * sizeof(f32)), &tex_coords[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_i);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (s32)(indices.size() * sizeof(s32)), &indices[0], GL_STATIC_DRAW);

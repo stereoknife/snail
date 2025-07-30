@@ -20,5 +20,5 @@ void main (void) {
     result.rgb = pow(result.rgb, vec3(1.0/gamma));
 
     frag_color = texture(specular_map, reflection);
-    frag_color = vec4(frag_normal, 1.0);
+    //frag_color = vec4(frag_normal, 1.0);
 }

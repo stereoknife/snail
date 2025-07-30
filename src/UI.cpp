@@ -18,13 +18,16 @@ auto UI::draw() -> void {
     // Menu
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Open", "Ctrl+O")) {
+            if (ImGui::MenuItem("Open", "Cmd+O")) {
                 NFD::Guard nfdGuard;
                 NFD::UniquePath outPath;
                 if (NFD::OpenDialog(outPath) == NFD_OKAY) {
                     //std::cout << "loading mesh: " << outPath << std::endl;
                     Root::meshes[1] = Mesh{outPath.get()};
                 }
+            }
+            if (ImGui::MenuItem("Quit", "Cmd+Q")) {
+                glfwSetWindowShouldClose(Root::window, true);
             }
             ImGui::EndMenu();
         }
@@ -35,7 +38,13 @@ auto UI::draw() -> void {
     ImGui::SetNextWindowPos(ImVec2(viewport->WorkPos.x, viewport->WorkPos.y));
     ImGui::SetNextWindowSizeConstraints(ImVec2{0, height}, ImVec2{width, height});
     ImGui::SetNextWindowSize(ImVec2(200, viewport->Size.y), ImGuiCond_FirstUseEver);
-    ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoMove);
+    ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+
+    // Camera
+    f32 fov = Root::camera.get_fov();
+    ImGui::SeparatorText("Camera");
+    ImGui::SliderFloat("FOV", &fov, 30.f, 100.f, "%.2f");
+    Root::camera.set_fov(fov);
 
     // Transform // Disabled for now since meshes can't be moved yet
     /*

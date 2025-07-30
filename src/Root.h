@@ -20,12 +20,15 @@ namespace Root {
      inline std::vector<Mesh> meshes;
      inline std::vector<Shader> shaders;
      inline std::vector<Texture> textures;
-     inline Camera camera{vec3(0.f, 0.f, 3.f), vec3(0.f, 0.f, -1.f)};
+     inline Camera camera{vec3(0.f, 0.f, 0.f), vec3(1.f, 0.f, 0.f)};
     
      auto init() -> void;
      auto loop() -> void;
      auto cleanup() -> void;
+
+     // TODO: Move input to its own thing probably
      auto process_input() -> void;
+     auto mouse_input(GLFWwindow* window, double xpos, double ypos) -> void;
 
      auto load_shaders() -> void;
      auto framebuffer_size_callback(GLFWwindow* window, int width, int height) -> void;
